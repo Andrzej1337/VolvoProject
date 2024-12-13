@@ -3,8 +3,8 @@ package org.services.controller;
 import org.services.api.model.CountryEntity;
 import org.services.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +21,18 @@ public class CountryController {
     @Autowired
     private CountryRepository countryRepository;
 
+    @Value("${country-api.url}")
+    private String restCountriesBaseUrl;
     @Autowired
     private RestTemplate restTemplate;
 
     @GetMapping("/{alpha3Code}")
     public CountryEntity getCountry(@PathVariable String alpha3Code) {
         CountryEntity country = countryRepository.findByAlpha3Code(alpha3Code);
+
+
         if (country == null) {
-            String url = "https://restcountries.com/v3.1/alpha/" + alpha3Code;
+            String url = restCountriesBaseUrl + alpha3Code;
             List<Map<String, Object>> responseList = restTemplate.getForObject(url, List.class);
 
             if (responseList == null || responseList.isEmpty()) {
