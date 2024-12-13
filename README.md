@@ -1,5 +1,13 @@
 # API Documentation
 
+## To run project
+
+```bash
+mvn clean install
+```
+```bash
+java -jar country-services-0.1.0-SNAPSHOT.jar
+```
 ## Endpoints
 
 ### Get Country Details
