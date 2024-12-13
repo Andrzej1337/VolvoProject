@@ -1,9 +1,9 @@
 package org.services.api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Entity
@@ -18,10 +18,19 @@ public class CountryEntity {
     private String capital;
     private String region;
     private String subregion;
-    private String languages;
     private Long population;
     private String borders;
-    private String timeZones;
+
+    @ElementCollection
+    @CollectionTable(name = "country_timezones", joinColumns = @JoinColumn(name = "country_id"))
+    @Column(name = "timezone")
+    private List<String> timeZones;
+
+    @ElementCollection
+    @CollectionTable(name = "country_languages", joinColumns = @JoinColumn(name = "country_id"))
+    @MapKeyColumn(name = "language_key")
+    @Column(name = "language_value")
+    private Map<String, String> languages;
 
 
     public void setId(Long id) {
@@ -56,10 +65,9 @@ public class CountryEntity {
         this.subregion = subregion;
     }
 
-    public void setLanguages(String languages) {
+    public void setLanguages(Map<String, String> languages) {
         this.languages = languages;
     }
-
     public void setPopulation(Long population) {
         this.population = population;
     }
@@ -68,7 +76,7 @@ public class CountryEntity {
         this.borders = borders;
     }
 
-    public void setTimeZones(String timeZones) {
+    public void setTimeZones(List<String> timeZones) {
         this.timeZones = timeZones;
     }
 
@@ -103,11 +111,6 @@ public class CountryEntity {
     public String getSubregion() {
         return subregion;
     }
-
-    public String getLanguages() {
-        return languages;
-    }
-
     public Long getPopulation() {
         return population;
     }
@@ -116,9 +119,11 @@ public class CountryEntity {
         return borders;
     }
 
-    public String getTimeZones() {
+    public List<String> getTimeZones() {
         return timeZones;
     }
-
+    public Map<String, String> getLanguages() {
+        return languages;
+    }
 
 }
