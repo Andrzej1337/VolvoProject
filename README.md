@@ -13,7 +13,7 @@ GET http://localhost:8080/api/countries/{country_code}
 #### Example Usage:
 - **Using cURL:**
   ```bash
-  curl -X GET http://localhost:8080/api/countries/US
+  curl -X GET http://localhost:8080/api/countries/usa
   ```
 - **Using Postman:**
   - Set the request type to `GET`.
