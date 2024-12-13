@@ -50,7 +50,29 @@ http://localhost:8080/h2-console/
 ### Query Example:
 To view all the countries stored in the database:
 ```sql
-SELECT * FROM COUNTRY_ENTITY;
+SELECT 
+    ce.id,
+    ce.alpha3Code,
+    ce.common_Name,
+    ce.official_Name,
+    ce.currencies,
+    ce.capital,
+    ce.region,
+    ce.subregion,
+    ce.population,
+    ce.borders,
+    GROUP_CONCAT(DISTINCT cl.language_key) AS languages_key,
+    GROUP_CONCAT(DISTINCT cl.language_value) AS languages_value,
+    GROUP_CONCAT(DISTINCT ct.timezone) AS timezones
+FROM 
+    country_entity ce
+LEFT JOIN 
+    country_languages cl ON ce.id = cl.country_id
+LEFT JOIN 
+    country_timezones ct ON ce.id = ct.country_id
+GROUP BY 
+    ce.id, ce.alpha3Code, ce.common_Name;
+
 ```
 
 
